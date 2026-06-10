@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+:root {
+  --bg-base: #f3f4f6;
+  --foreground: #1b1b1f;
+  --background: #ffffff;
+  --muted: #616161;
+  --accent: #0078d4;
+  --accent-secondary: #8764b8;
+
+  --glass-bg-sm: rgba(255, 255, 255, 0.55);
+  --glass-bg-md: rgba(255, 255, 255, 0.72);
+  --glass-bg-lg: rgba(255, 255, 255, 0.82);
+
+  --glass-border-sm: rgba(255, 255, 255, 0.45);
+  --glass-border-md: rgba(0, 0, 0, 0.06);
+  --glass-border-lg: rgba(0, 0, 0, 0.08);
+  --glass-border-hover: rgba(0, 120, 212, 0.22);
+
+  --glass-shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.04);
+  --glass-shadow-md: 0 8px 32px rgba(0, 0, 0, 0.06);
+  --glass-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.08);
+  --glass-shadow-hover: 0 20px 56px rgba(0, 120, 212, 0.12);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-segoe);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 7rem;
+}
+
+body {
+  background: var(--bg-base);
+  color: var(--foreground);
+  font-family: var(--font-segoe), "Segoe UI", system-ui, -apple-system,
+    sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(0, 120, 212, 0.18);
+  color: var(--foreground);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
