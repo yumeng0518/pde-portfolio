@@ -22,7 +22,7 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
-          <Link href="/" className="group flex items-center gap-2.5">
+          <Link href="/" prefetch={false} className="group flex items-center gap-2.5">
             <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-black/[0.04] bg-white text-xs font-bold text-[var(--accent)] shadow-sm transition-transform group-hover:scale-105">
               P
             </span>
@@ -34,7 +34,7 @@ export function Footer() {
             </div>
           </Link>
           <p className="text-xs text-[var(--muted)]">
-            © {new Date().getFullYear()} · Built with PDE mindset
+            © 2026 · Built with PDE mindset
           </p>
         </div>
       </div>

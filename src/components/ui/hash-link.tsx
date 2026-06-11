@@ -28,6 +28,7 @@ export function HashLink({ href, onClick, ...props }: HashLinkProps) {
     return (
       <Link
         href={href}
+        prefetch={false}
         onClick={(event) => {
           if (pathname === "" || pathname === window.location.pathname) {
             event.preventDefault();
@@ -40,5 +41,5 @@ export function HashLink({ href, onClick, ...props }: HashLinkProps) {
     );
   }
 
-  return <Link href={href} onClick={onClick} {...props} />;
+  return <Link href={href} prefetch={false} onClick={onClick} {...props} />;
 }

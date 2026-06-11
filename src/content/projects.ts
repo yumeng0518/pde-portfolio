@@ -437,6 +437,15 @@ export const featuredProjects: Project[] = [
       "Cursor"
     ],
 
+    media: [
+      {
+        type: "video",
+        url: "/media/food-card/flip-card-demo.mp4",
+        caption: "美食玩法卡 3D 翻卡交互演示",
+        section: "hero",
+      },
+    ],
+
     background: {
       businessGoal:
         "外卖业务在午/晚高峰的下单转化率遇到瓶颈——用户打开 App 浏览但不下单的比例持续上升。业务目标是通过互动玩法提升下单决策效率，同时为优质商家带来额外曝光流量。",
@@ -543,7 +552,7 @@ export const featuredProjects: Project[] = [
     media: [
       {
         type: "video",
-        url: "/media/frog-writing/website-demo.mp4",
+        url: "/media/frog-writing/6月11日.mp4",
         caption: "蛙蛙官网完整录屏",
         section: "hero",
       },

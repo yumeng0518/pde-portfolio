@@ -115,7 +115,7 @@ export function ProjectsSection() {
                 }}
                 className="w-[260px] flex-shrink-0 snap-start"
               >
-                <Link href={`/work/${project.slug}`} className="group block">
+                <Link href={`/work/${project.slug}`} prefetch={false} className="group block">
                   <article className="overflow-hidden rounded-2xl border border-black/[0.04] bg-white p-3 shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
                     {/* Cover */}
                     <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-gray-100">

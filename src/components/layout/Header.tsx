@@ -42,7 +42,7 @@ export function Header() {
           )}
         >
           {/* Logo */}
-          <Link href="/" className="group flex items-center gap-2.5">
+          <Link href="/" prefetch={false} className="group flex items-center gap-2.5">
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--accent)] text-xs font-bold text-white shadow-[0_4px_12px_rgba(0,120,212,0.3)] transition-transform group-hover:scale-105">
               P
             </span>
