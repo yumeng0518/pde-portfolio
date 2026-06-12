@@ -11,23 +11,12 @@ export function ProjectsSection() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
-  const [activeIndex, setActiveIndex] = useState(0);
 
   const checkScroll = useCallback(() => {
     if (!scrollRef.current) return;
     const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
     setCanScrollLeft(scrollLeft > 10);
     setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
-
-    // 基于滚动百分比计算当前索引，确保滑到底时能到最后一个
-    const maxScroll = scrollWidth - clientWidth;
-    if (maxScroll <= 0) {
-      setActiveIndex(0);
-      return;
-    }
-    const scrollPercent = scrollLeft / maxScroll;
-    const currentIndex = Math.round(scrollPercent * (featuredProjects.length - 1));
-    setActiveIndex(Math.min(Math.max(currentIndex, 0), featuredProjects.length - 1));
   }, []);
 
   useEffect(() => {
@@ -39,18 +28,6 @@ export function ProjectsSection() {
     const amount = scrollRef.current.clientWidth * 0.7;
     scrollRef.current.scrollBy({
       left: direction === "left" ? -amount : amount,
-      behavior: "smooth",
-    });
-  };
-
-  const scrollToProject = (index: number) => {
-    if (!scrollRef.current) return;
-    const { scrollWidth, clientWidth } = scrollRef.current;
-    const maxScroll = scrollWidth - clientWidth;
-    // 按比例计算目标滚动位置，确保最后一个能到底
-    const targetScroll = (index / Math.max(featuredProjects.length - 1, 1)) * maxScroll;
-    scrollRef.current.scrollTo({
-      left: targetScroll,
       behavior: "smooth",
     });
   };
@@ -151,36 +128,6 @@ export function ProjectsSection() {
                 </Link>
               </motion.div>
             ))}
-          </div>
-
-          {/* Quick Navigation Slider */}
-          <div className="mt-6 flex items-center justify-center px-4">
-            <div className="relative h-1 w-full max-w-md rounded-full bg-black/[0.06]">
-              {/* Track fill */}
-              <motion.div
-                className="absolute inset-y-0 left-0 rounded-full bg-[var(--accent)]/60"
-                animate={{ width: `${((activeIndex + 1) / featuredProjects.length) * 100}%` }}
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              />
-              {/* Thumb */}
-              <motion.div
-                className="absolute top-1/2 h-3 w-3 -translate-y-1/2 cursor-pointer rounded-full bg-[var(--accent)] shadow-[0_1px_4px_rgba(0,0,0,0.15)]"
-                animate={{ left: `${(activeIndex / Math.max(featuredProjects.length - 1, 1)) * 100}%` }}
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                style={{ marginLeft: "-6px" }}
-              />
-              {/* Clickable zones */}
-              <div className="absolute inset-0 flex">
-                {featuredProjects.map((project, index) => (
-                  <button
-                    key={project.slug}
-                    onClick={() => scrollToProject(index)}
-                    className="h-full flex-1 cursor-pointer"
-                    aria-label={project.title}
-                  />
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </div>

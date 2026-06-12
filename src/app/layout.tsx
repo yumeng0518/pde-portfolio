@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: `${siteConfig.name} · ${siteConfig.role}`,
   description:
-    "产品设计工程师（PDE）作品集——以产品洞察、设计巧思与端到端交付能力，面向 AI 驱动的产品组织。",
+    "张鹏飞 · 产品设计工程师（PDE）作品集——以产品洞察、设计巧思与 AI 辅助端到端交付能力，面向 AI 驱动的产品组织。",
   keywords: [
     "PDE",
     "产品设计工程师",

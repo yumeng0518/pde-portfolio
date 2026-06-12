@@ -1,9 +1,14 @@
 export const siteConfig = {
-  name: "传创妙字",
+  name: "张鹏飞",
   role: "产品设计工程师 · PDE",
   tagline: "从需求洞察到产品上线，端到端交付",
-  email: "your.email@example.com",
-  location: "北京",
+  email: "yumeng0518399@qq.com",
+  phone: "17638826506",
+  location: "上海",
+  heroMission:
+    "我的使命在于，在 AI Coding Product 的新范式下，将「洞察 → 设计 → 实现」的 串行链路能力一体化交付落地的可行闭环。",
+  heroDefinition:
+    "产品设计工程师（Product Design Engineer），是结合 AI 应用能力，能够独立负责从需求洞察、概念构思、原型验证、产品设计、代码实现到最终上线全链路交付的新型工作者。",
   links: {
     resume: "#",
     linkedin: "#",

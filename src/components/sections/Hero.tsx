@@ -39,10 +39,10 @@ export function HeroSection() {
 
             {/* Description */}
             <FadeIn delay={0.12}>
-              <p className="mt-5 max-w-lg text-[15px] leading-relaxed text-[var(--muted)]">
-                我的使命在于，在 AI Coding Product 的新范式下，将「洞察 → 设计 → 实现」的
-                串行链路能力一体化交付落地的可行闭环。
-              </p>
+              <div className="mt-5 max-w-xl space-y-3 text-[15px] leading-relaxed text-[var(--muted)]">
+                <p>{siteConfig.heroMission}</p>
+                <p>{siteConfig.heroDefinition}</p>
+              </div>
             </FadeIn>
 
             {/* CTA buttons */}
