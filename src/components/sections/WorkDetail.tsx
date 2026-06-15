@@ -5,57 +5,77 @@ import type { Project, MediaItem } from "@/content/projects";
 import { GlassPanel } from "@/components/ui/glass";
 import { FadeIn } from "@/components/ui/motion";
 
-function SectionTitle({
-  label,
-  color,
+const prose =
+  "text-[15px] leading-[1.85] text-[var(--foreground)]/75 sm:text-base sm:leading-[1.9]";
+const label =
+  "text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]";
+
+function SectionHeader({
+  index,
+  title,
+  desc,
 }: {
-  label: string;
-  color?: string;
+  index: string;
+  title: string;
+  desc?: string;
 }) {
   return (
-    <p
-      className="text-[11px] font-medium uppercase tracking-[0.14em]"
-      style={{ color: color || "var(--accent)" }}
-    >
-      {label}
-    </p>
+    <div className="border-b border-black/[0.06] pb-5">
+      <p className={label}>{index}</p>
+      <h2 className="mt-2 text-2xl font-semibold tracking-[-0.03em] sm:text-[1.65rem]">
+        {title}
+      </h2>
+      {desc && (
+        <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{desc}</p>
+      )}
+    </div>
+  );
+}
+
+function SubBlock({
+  title,
+  children,
+  accent,
+}: {
+  title: string;
+  children: React.ReactNode;
+  accent: string;
+}) {
+  return (
+    <div className="relative pl-5 sm:pl-6">
+      <span
+        aria-hidden
+        className="absolute left-0 top-1.5 h-[calc(100%-0.375rem)] w-0.5 rounded-full opacity-80"
+        style={{ background: accent }}
+      />
+      <h3 className="text-[15px] font-semibold tracking-[-0.01em] text-[var(--foreground)]">
+        {title}
+      </h3>
+      <div className="mt-3">{children}</div>
+    </div>
   );
 }
 
 function TextBlock({ text }: { text: string }) {
-  return (
-    <p className="mt-4 text-base leading-relaxed text-[var(--muted)]">
-      {text}
-    </p>
-  );
+  return <p className={prose}>{text}</p>;
 }
 
-function BulletList({
-  items,
-  accent,
-}: {
-  items: string[];
-  accent: string;
-}) {
+function BulletList({ items, accent }: { items: string[]; accent: string }) {
   return (
-    <ul className="mt-4 space-y-3">
+    <ul className="space-y-3">
       {items.map((item) => (
-        <li
-          key={item}
-          className="flex items-start gap-3 text-sm leading-relaxed text-[var(--muted)]"
-        >
+        <li key={item} className={`flex gap-3 ${prose}`}>
           <span
-            className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full"
+            className="mt-[0.65rem] h-1 w-1 shrink-0 rounded-full"
             style={{ background: accent }}
           />
-          {item}
+          <span>{item}</span>
         </li>
       ))}
     </ul>
   );
 }
 
-/** 媒体渲染组件 */
 function MediaGallery({
   items,
   accent,
@@ -63,25 +83,25 @@ function MediaGallery({
   items: MediaItem[];
   accent: string;
 }) {
-  if (!items || items.length === 0) return null;
+  if (!items?.length) return null;
 
   return (
-    <div className="mt-6 space-y-4">
+    <div className="mt-8 space-y-6">
       {items.map((item, i) => (
-        <motion.div
+        <motion.figure
           key={i}
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: i * 0.08, duration: 0.4 }}
-          className="overflow-hidden rounded-2xl border border-[var(--glass-border-sm)]"
+          transition={{ delay: i * 0.06, duration: 0.4 }}
+          className="overflow-hidden rounded-2xl bg-white shadow-[0_8px_30px_rgba(0,0,0,0.04)]"
         >
           {item.type === "video" ? (
             <video
               src={item.url}
               controls
               preload="metadata"
-              className="w-full aspect-video bg-black/5"
+              className="aspect-video w-full bg-black/5"
               playsInline
             />
           ) : (
@@ -93,29 +113,30 @@ function MediaGallery({
             />
           )}
           {item.caption && (
-            <div className="px-4 py-3 bg-[var(--glass-bg-sm)]">
-              <p className="text-xs text-[var(--muted)]">
-                <span
-                  className="inline-block mr-2 h-1.5 w-1.5 rounded-full"
-                  style={{ background: accent }}
-                />
-                {item.caption}
-              </p>
-            </div>
+            <figcaption className="px-5 py-3 text-center text-sm text-[var(--muted)]">
+              <span
+                className="mr-2 inline-block h-1 w-1 rounded-full align-middle"
+                style={{ background: accent }}
+              />
+              {item.caption}
+            </figcaption>
           )}
-        </motion.div>
+        </motion.figure>
       ))}
     </div>
   );
 }
 
-/** 按 section 过滤媒体资源 */
-function getMediaBySection(media: MediaItem[] | undefined, section: MediaItem["section"]): MediaItem[] {
+function getMediaBySection(
+  media: MediaItem[] | undefined,
+  section: MediaItem["section"],
+) {
   if (!media) return [];
   return media.filter((m) => m.section === section);
 }
 
 export function WorkDetailContent({ project }: { project: Project }) {
+  const accent = project.accent;
   const heroMedia = getMediaBySection(project.media, "hero");
   const backgroundMedia = getMediaBySection(project.media, "background");
   const requirementsMedia = getMediaBySection(project.media, "requirements");
@@ -124,302 +145,254 @@ export function WorkDetailContent({ project }: { project: Project }) {
   const retrospectiveMedia = getMediaBySection(project.media, "retrospective");
 
   return (
-    <>
-      {/* Hero Visual */}
-      <FadeIn delay={0.1} className="mt-10">
+    <article className="mt-12 space-y-16 sm:mt-14 sm:space-y-20">
+      {/* Hero */}
+      <FadeIn delay={0.08}>
         {heroMedia.length > 0 ? (
-          <div className="space-y-4">
-            {heroMedia.map((item, i) => (
-              <div
-                key={i}
-                className="relative overflow-hidden rounded-3xl border border-[var(--glass-border-md)]"
-              >
-                {item.type === "video" ? (
-                  <video
-                    src={item.url}
-                    controls
-                    preload="metadata"
-                    className="w-full aspect-video bg-black/5"
-                    playsInline
-                  />
-                ) : (
-                  <img
-                    src={item.url}
-                    alt={item.caption || project.title}
-                    className="w-full object-cover"
-                  />
-                )}
-              </div>
-            ))}
-          </div>
+          <MediaGallery items={heroMedia} accent={accent} />
         ) : (
           <div
-            className="relative aspect-[16/9] overflow-hidden rounded-3xl border border-[var(--glass-border-md)]"
+            className="relative aspect-[16/9] overflow-hidden rounded-2xl bg-white shadow-[0_8px_30px_rgba(0,0,0,0.04)]"
             style={{
-              background: `linear-gradient(135deg, ${project.accent}33, ${project.accent}08)`,
+              background: `linear-gradient(135deg, ${accent}22, ${accent}06)`,
             }}
           >
             <motion.div
-              animate={{ scale: [1, 1.03, 1] }}
+              animate={{ scale: [1, 1.02, 1] }}
               transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
               className="absolute inset-0"
               style={{
-                background: `radial-gradient(circle at 40% 35%, ${project.accent}66, transparent 60%)`,
+                background: `radial-gradient(circle at 40% 35%, ${accent}44, transparent 62%)`,
               }}
             />
           </div>
         )}
       </FadeIn>
 
-      {/* Summary */}
-      <FadeIn delay={0.12} className="mt-10">
-        <GlassPanel depth="md" className="p-6 sm:p-8">
-          <SectionTitle label="项目概述" />
-          <TextBlock text={project.summary} />
-          <div className="mt-4 flex flex-wrap gap-2">
+      {/* 概述 */}
+      <FadeIn delay={0.1}>
+        <section className="space-y-5">
+          <p className={label}>Overview</p>
+          <p className="text-lg leading-[1.75] tracking-[-0.01em] text-[var(--foreground)] sm:text-xl sm:leading-[1.8]">
+            {project.summary}
+          </p>
+          <div className="flex flex-wrap gap-2 pt-1">
             {project.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full px-3 py-1 text-xs"
-                style={{
-                  background: `${project.accent}15`,
-                  color: project.accent,
-                }}
+                className="rounded-full border border-black/[0.06] bg-white px-3 py-1 text-xs text-[var(--muted)]"
               >
                 {tag}
               </span>
             ))}
           </div>
-        </GlassPanel>
+        </section>
       </FadeIn>
 
-      {/* 一、项目背景 */}
-      <FadeIn delay={0.14} className="mt-8">
-        <div className="space-y-1 mb-6">
-          <h2 className="text-lg font-semibold tracking-[-0.02em]">一、项目背景</h2>
-          <p className="text-xs text-[var(--muted)]">
-            业务目标 · 用户痛点 · 市场现状 · 竞品分析
-          </p>
-        </div>
-        <div className="grid gap-4">
-          <GlassPanel depth="sm" className="p-6">
-            <SectionTitle label="业务目标" color="#10B981" />
-            <TextBlock text={project.background.businessGoal} />
-          </GlassPanel>
-          <GlassPanel depth="sm" className="p-6">
-            <SectionTitle label="用户痛点" color="#F59E0B" />
-            <TextBlock text={project.background.userPain} />
-          </GlassPanel>
-          <GlassPanel depth="sm" className="p-6">
-            <SectionTitle label="市场现状" color="#6366F1" />
-            <TextBlock text={project.background.marketStatus} />
-          </GlassPanel>
-          <GlassPanel depth="sm" className="p-6">
-            <SectionTitle label="竞品分析" color="#EC4899" />
-            <TextBlock text={project.background.competitorAnalysis} />
-          </GlassPanel>
-        </div>
-        {backgroundMedia.length > 0 && (
-          <MediaGallery items={backgroundMedia} accent={project.accent} />
-        )}
-      </FadeIn>
-
-      {/* 二、需求拆解 */}
-      <FadeIn delay={0.16} className="mt-8">
-        <div className="space-y-1 mb-6">
-          <h2 className="text-lg font-semibold tracking-[-0.02em]">二、需求拆解</h2>
-          <p className="text-xs text-[var(--muted)]">
-            用户画像 · 用户旅程 · 核心需求 · 次要需求
-          </p>
-        </div>
-        <div className="grid gap-4">
-          <GlassPanel depth="sm" className="p-6">
-            <SectionTitle label="用户画像" color="#8B5CF6" />
-            <TextBlock text={project.requirements.userPersona} />
-          </GlassPanel>
-          <GlassPanel depth="sm" className="p-6">
-            <SectionTitle label="用户旅程" color="#06B6D4" />
-            <TextBlock text={project.requirements.userJourney} />
-          </GlassPanel>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <GlassPanel depth="sm" className="p-6">
-              <SectionTitle label="核心需求" color="#10B981" />
-              <BulletList items={project.requirements.coreNeeds} accent={project.accent} />
-            </GlassPanel>
-            <GlassPanel depth="sm" className="p-6">
-              <SectionTitle label="次要需求" color="#94A3B8" />
-              <BulletList items={project.requirements.secondaryNeeds} accent="#94A3B8" />
-            </GlassPanel>
+      {/* 背景 */}
+      <FadeIn delay={0.12}>
+        <section className="space-y-8">
+          <SectionHeader
+            index="01"
+            title="项目背景"
+            desc="业务目标 · 用户痛点 · 市场现状 · 竞品分析"
+          />
+          <div className="grid gap-8 sm:gap-10">
+            <SubBlock title="业务目标" accent={accent}>
+              <TextBlock text={project.background.businessGoal} />
+            </SubBlock>
+            <SubBlock title="用户痛点" accent={accent}>
+              <TextBlock text={project.background.userPain} />
+            </SubBlock>
+            <SubBlock title="市场现状" accent={accent}>
+              <TextBlock text={project.background.marketStatus} />
+            </SubBlock>
+            <SubBlock title="竞品分析" accent={accent}>
+              <TextBlock text={project.background.competitorAnalysis} />
+            </SubBlock>
           </div>
-        </div>
-        {requirementsMedia.length > 0 && (
-          <MediaGallery items={requirementsMedia} accent={project.accent} />
-        )}
-      </FadeIn>
-
-      {/* 三、方案设计 */}
-      <FadeIn delay={0.18} className="mt-8">
-        <div className="space-y-1 mb-6">
-          <h2 className="text-lg font-semibold tracking-[-0.02em]">三、方案设计</h2>
-          <p className="text-xs text-[var(--muted)]">
-            信息架构 · 功能流程 · 原型设计 · 交互规则 · 页面说明
-          </p>
-        </div>
-        <div className="grid gap-4">
-          <GlassPanel depth="md" className="p-6 sm:p-8">
-            <SectionTitle label="信息架构" color="#6366F1" />
-            <TextBlock text={project.designSolution.informationArchitecture} />
-          </GlassPanel>
-          <GlassPanel depth="md" className="p-6 sm:p-8">
-            <SectionTitle label="功能流程" color="#10B981" />
-            <TextBlock text={project.designSolution.functionalFlow} />
-          </GlassPanel>
-          <GlassPanel depth="md" className="p-6 sm:p-8">
-            <SectionTitle label="原型设计" color="#F59E0B" />
-            <TextBlock text={project.designSolution.prototype} />
-          </GlassPanel>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <GlassPanel depth="sm" className="p-6">
-              <SectionTitle label="交互规则" color="#EC4899" />
-              <TextBlock text={project.designSolution.interactionRules} />
-            </GlassPanel>
-            <GlassPanel depth="sm" className="p-6">
-              <SectionTitle label="页面说明" color="#8B5CF6" />
-              <TextBlock text={project.designSolution.pageNotes} />
-            </GlassPanel>
-          </div>
-          {project.designSolution.optimizationOverview && (
-            <GlassPanel depth="sm" className="p-6">
-              <SectionTitle label="七大模块优化" color="#10B981" />
-              <BulletList
-                items={project.designSolution.optimizationOverview}
-                accent={project.accent}
-              />
-            </GlassPanel>
+          {backgroundMedia.length > 0 && (
+            <MediaGallery items={backgroundMedia} accent={accent} />
           )}
-        </div>
-        {designMedia.length > 0 && (
-          <MediaGallery items={designMedia} accent={project.accent} />
-        )}
+        </section>
       </FadeIn>
 
-      {/* 四、落地成果 */}
-      <FadeIn delay={0.2} className="mt-8">
-        <div className="space-y-1 mb-6">
-          <h2 className="text-lg font-semibold tracking-[-0.02em]">四、落地成果</h2>
-          <p className="text-xs text-[var(--muted)]">
-            版本迭代 · 数据表现 · 用户反馈
-          </p>
-        </div>
-        <div className="grid gap-4">
-          {/* 版本迭代 */}
-          <GlassPanel depth="sm" className="p-6">
-            <SectionTitle label="版本迭代记录" color="#06B6D4" />
-            <div className="mt-4 space-y-3">
+      {/* 需求 */}
+      <FadeIn delay={0.14}>
+        <section className="space-y-8">
+          <SectionHeader
+            index="02"
+            title="需求拆解"
+            desc="用户画像 · 用户旅程 · 核心与次要需求"
+          />
+          <div className="grid gap-8 sm:gap-10">
+            <SubBlock title="用户画像" accent={accent}>
+              <TextBlock text={project.requirements.userPersona} />
+            </SubBlock>
+            <SubBlock title="用户旅程" accent={accent}>
+              <TextBlock text={project.requirements.userJourney} />
+            </SubBlock>
+            <div className="grid gap-8 sm:grid-cols-2 sm:gap-10">
+              <SubBlock title="核心需求" accent={accent}>
+                <BulletList items={project.requirements.coreNeeds} accent={accent} />
+              </SubBlock>
+              <SubBlock title="次要需求" accent={accent}>
+                <BulletList
+                  items={project.requirements.secondaryNeeds}
+                  accent="var(--muted)"
+                />
+              </SubBlock>
+            </div>
+          </div>
+          {requirementsMedia.length > 0 && (
+            <MediaGallery items={requirementsMedia} accent={accent} />
+          )}
+        </section>
+      </FadeIn>
+
+      {/* 方案 */}
+      <FadeIn delay={0.16}>
+        <section className="space-y-8">
+          <SectionHeader
+            index="03"
+            title="方案设计"
+            desc="信息架构 · 功能流程 · 原型与交互"
+          />
+          <div className="grid gap-8 sm:gap-10">
+            <SubBlock title="信息架构" accent={accent}>
+              <TextBlock text={project.designSolution.informationArchitecture} />
+            </SubBlock>
+            <SubBlock title="功能流程" accent={accent}>
+              <TextBlock text={project.designSolution.functionalFlow} />
+            </SubBlock>
+            <SubBlock title="原型设计" accent={accent}>
+              <TextBlock text={project.designSolution.prototype} />
+            </SubBlock>
+            <div className="grid gap-8 sm:grid-cols-2 sm:gap-10">
+              <SubBlock title="交互规则" accent={accent}>
+                <TextBlock text={project.designSolution.interactionRules} />
+              </SubBlock>
+              <SubBlock title="页面说明" accent={accent}>
+                <TextBlock text={project.designSolution.pageNotes} />
+              </SubBlock>
+            </div>
+            {project.designSolution.optimizationOverview && (
+              <SubBlock title="七大模块优化" accent={accent}>
+                <BulletList
+                  items={project.designSolution.optimizationOverview}
+                  accent={accent}
+                />
+              </SubBlock>
+            )}
+          </div>
+          {designMedia.length > 0 && (
+            <MediaGallery items={designMedia} accent={accent} />
+          )}
+        </section>
+      </FadeIn>
+
+      {/* 成果 */}
+      <FadeIn delay={0.18}>
+        <section className="space-y-8">
+          <SectionHeader
+            index="04"
+            title="落地成果"
+            desc="版本迭代 · 数据表现 · 用户反馈"
+          />
+          <SubBlock title="版本迭代" accent={accent}>
+            <ol className="space-y-4">
               {project.deliveryResults.iterationLog.map((item, i) => (
-                <div key={i} className="flex items-start gap-3">
+                <li key={i} className="flex gap-4">
                   <span
-                    className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white"
-                    style={{ background: project.accent }}
+                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold text-white"
+                    style={{ background: accent }}
                   >
                     {i + 1}
                   </span>
-                  <p className="text-sm leading-relaxed text-[var(--muted)]">
-                    {item}
-                  </p>
-                </div>
+                  <p className={`pt-0.5 ${prose}`}>{item}</p>
+                </li>
               ))}
-            </div>
-          </GlassPanel>
+            </ol>
+          </SubBlock>
 
-          {/* 数据表现 */}
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {project.deliveryResults.dataPerformance.map((metric) => (
-              <GlassPanel key={metric.label} depth="sm" className="p-5">
+              <div
+                key={metric.label}
+                className="rounded-2xl border border-black/[0.05] bg-white px-5 py-6 text-center shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
+              >
                 <p className="text-xs text-[var(--muted)]">{metric.label}</p>
                 <p
                   className="mt-2 text-2xl font-semibold tracking-[-0.03em]"
-                  style={{ color: project.accent }}
+                  style={{ color: accent }}
                 >
                   {metric.value}
                 </p>
-              </GlassPanel>
+              </div>
             ))}
           </div>
 
-          {/* 用户反馈 */}
-          <GlassPanel depth="sm" className="p-6">
-            <SectionTitle label="用户反馈" color="#F59E0B" />
+          <SubBlock title="用户反馈" accent={accent}>
             <TextBlock text={project.deliveryResults.userFeedback} />
-          </GlassPanel>
-        </div>
-        {deliveryMedia.length > 0 && (
-          <MediaGallery items={deliveryMedia} accent={project.accent} />
-        )}
+          </SubBlock>
+
+          {deliveryMedia.length > 0 && (
+            <MediaGallery items={deliveryMedia} accent={accent} />
+          )}
+        </section>
       </FadeIn>
 
-      {/* 五、复盘总结 */}
-      <FadeIn delay={0.22} className="mt-8">
-        <div className="space-y-1 mb-6">
-          <h2 className="text-lg font-semibold tracking-[-0.02em]">五、复盘总结</h2>
-          <p className="text-xs text-[var(--muted)]">
-            亮点 · 不足 · 优化思路
-          </p>
-        </div>
-        <div className="grid gap-4">
-          <GlassPanel depth="sm" className="p-6">
-            <SectionTitle label="亮点" color="#10B981" />
-            <BulletList items={project.retrospective.strengths} accent="#10B981" />
-          </GlassPanel>
-          <GlassPanel depth="sm" className="p-6">
-            <SectionTitle label="不足" color="#F59E0B" />
-            <BulletList items={project.retrospective.weaknesses} accent="#F59E0B" />
-          </GlassPanel>
-          <GlassPanel depth="sm" className="p-6">
-            <SectionTitle label="优化思路" color="#6366F1" />
-            <BulletList items={project.retrospective.optimizationIdeas} accent="#6366F1" />
-          </GlassPanel>
-        </div>
-        {retrospectiveMedia.length > 0 && (
-          <MediaGallery items={retrospectiveMedia} accent={project.accent} />
-        )}
+      {/* 复盘 */}
+      <FadeIn delay={0.2}>
+        <section className="space-y-8">
+          <SectionHeader index="05" title="复盘总结" desc="亮点 · 不足 · 优化思路" />
+          <div className="grid gap-8 sm:gap-10">
+            <SubBlock title="亮点" accent={accent}>
+              <BulletList items={project.retrospective.strengths} accent={accent} />
+            </SubBlock>
+            <SubBlock title="不足" accent={accent}>
+              <BulletList items={project.retrospective.weaknesses} accent={accent} />
+            </SubBlock>
+            <SubBlock title="优化思路" accent={accent}>
+              <BulletList
+                items={project.retrospective.optimizationIdeas}
+                accent={accent}
+              />
+            </SubBlock>
+          </div>
+          {retrospectiveMedia.length > 0 && (
+            <MediaGallery items={retrospectiveMedia} accent={accent} />
+          )}
+        </section>
       </FadeIn>
 
-      {/* 原有的产品洞察 & 设计巧思 */}
-      <FadeIn delay={0.24} className="mt-8">
-        <div className="space-y-1 mb-6">
-          <h2 className="text-lg font-semibold tracking-[-0.02em]">设计思考</h2>
-        </div>
-        <div className="grid gap-4">
-          <GlassPanel depth="md" className="p-6 sm:p-8">
-            <SectionTitle label="产品洞察" />
-            <TextBlock text={project.productInsight} />
-          </GlassPanel>
-          <GlassPanel depth="md" className="p-6 sm:p-8">
-            <SectionTitle label="设计巧思" color="#8764B8" />
-            <TextBlock text={project.designCraft} />
-          </GlassPanel>
-        </div>
+      {/* 设计思考 */}
+      <FadeIn delay={0.22}>
+        <section className="space-y-8 rounded-3xl bg-white px-6 py-8 shadow-[0_8px_40px_rgba(0,0,0,0.04)] sm:px-10 sm:py-10">
+          <SectionHeader index="Insight" title="设计思考" />
+          <div className="grid gap-8 sm:gap-10">
+            <SubBlock title="产品洞察" accent={accent}>
+              <TextBlock text={project.productInsight} />
+            </SubBlock>
+            <SubBlock title="设计巧思" accent={accent}>
+              <TextBlock text={project.designCraft} />
+            </SubBlock>
+            <SubBlock title="关键设计决策" accent={accent}>
+              <BulletList items={project.highlights} accent={accent} />
+            </SubBlock>
+          </div>
+        </section>
       </FadeIn>
 
-      {/* 关键设计决策 */}
-      <FadeIn delay={0.26} className="mt-6">
-        <GlassPanel depth="sm" className="p-6 sm:p-8">
-          <SectionTitle label="关键设计决策" color="var(--muted)" />
-          <BulletList items={project.highlights} accent={project.accent} />
-        </GlassPanel>
-      </FadeIn>
-
-      {/* 核心指标 */}
       {project.metrics && (
-        <FadeIn delay={0.28} className="mt-6">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <FadeIn delay={0.24}>
+          <div className="grid gap-4 sm:grid-cols-3">
             {project.metrics.map((metric) => (
-              <GlassPanel key={metric.label} depth="sm" className="p-6">
+              <GlassPanel key={metric.label} depth="sm" className="p-6 text-center">
                 <p className="text-sm text-[var(--muted)]">{metric.label}</p>
                 <p
                   className="mt-2 text-3xl font-semibold tracking-[-0.03em]"
-                  style={{ color: project.accent }}
+                  style={{ color: accent }}
                 >
                   {metric.value}
                 </p>
@@ -428,6 +401,6 @@ export function WorkDetailContent({ project }: { project: Project }) {
           </div>
         </FadeIn>
       )}
-    </>
+    </article>
   );
 }

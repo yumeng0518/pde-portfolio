@@ -32,13 +32,13 @@
     {
       "type": "image",
       "url": "/media/frog-writing/design-solution.gif",
-      "caption": "官网设计方案",
+      "caption": "新网站",
       "section": "design"
     },
     {
       "type": "image",
       "url": "/media/frog-writing/page-structure.gif",
-      "caption": "页面结构设计",
+      "caption": "旧版网站",
       "section": "design"
     }
   ],
@@ -82,10 +82,10 @@
   },
   "deliveryResults": {
     "iterationLog": [
-      "Day 1-2：我收集旧版用户痛点 + 梳理信息架构，研发搭建项目框架",
-      "Day 3-4：我输出视觉方向与交互方案，研发通过 Vibe Coding 实现页面 + 响应式适配",
-      "Day 5-6：协同打磨细节（动效/间距/文案），研发完成 SEO 优化 + 性能调优",
-      "Day 7：研发通过 CatPaw 自动化部署上线，我完成最终走查验收"
+      "Day 1-3：我收集旧版用户痛点 + 梳理信息架构，研发搭建项目框架",
+      "Day 4-8：我输出视觉方向与交互方案，研发通过 Vibe Coding 实现页面 + 响应式适配",
+      "Day 9-13：协同打磨细节（动效/间距/文案），研发完成 SEO 优化 + 性能调优",
+      "Day 14-15：研发通过 CatPaw 自动化部署上线，我完成最终走查验收"
     ],
     "dataPerformance": [
       {

@@ -26,8 +26,8 @@ export default async function WorkDetailPage({
     <>
       <AmbientBackground />
       <Header />
-      <main className="px-4 pb-20 pt-28 sm:px-6">
-        <div className="mx-auto max-w-4xl">
+      <main className="px-4 pb-24 pt-28 sm:px-6">
+        <div className="mx-auto max-w-3xl">
           <HashLink
             href="/#work"
             className="inline-flex items-center gap-2 text-sm text-[var(--muted)] transition-colors hover:text-[var(--accent)]"
@@ -35,15 +35,17 @@ export default async function WorkDetailPage({
             ← 返回作品列表
           </HashLink>
 
-          <div className="mt-8">
-            <p className="text-xs uppercase tracking-[0.16em] text-[var(--muted)]">
+          <header className="mt-10 border-b border-black/[0.06] pb-10">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
               {project.category} · {project.year}
             </p>
-            <h1 className="mt-3 text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
+            <h1 className="mt-4 text-[clamp(1.75rem,4.5vw,2.75rem)] font-bold leading-[1.15] tracking-[-0.03em]">
               {project.title}
             </h1>
-            <p className="mt-4 text-xl text-[var(--muted)]">{project.subtitle}</p>
-          </div>
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-[var(--muted)] sm:text-lg">
+              {project.subtitle}
+            </p>
+          </header>
 
           <WorkDetailContent project={project} />
         </div>

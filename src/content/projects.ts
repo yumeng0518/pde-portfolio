@@ -562,13 +562,13 @@ const rawFeaturedProjects: Project[] = [
       {
         type: "image",
         url: "/media/frog-writing/design-solution.gif",
-        caption: "官网设计方案",
+        caption: "新网站",
         section: "design",
       },
       {
         type: "image",
         url: "/media/frog-writing/page-structure.gif",
-        caption: "页面结构设计",
+        caption: "旧版网站",
         section: "design",
       }
     ],

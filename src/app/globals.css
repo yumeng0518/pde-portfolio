@@ -42,10 +42,13 @@ html {
 body {
   background: var(--bg-base);
   color: var(--foreground);
-  font-family: var(--font-segoe), "Segoe UI", system-ui, -apple-system,
-    sans-serif;
+  font-family: var(--font-segoe), "Segoe UI", "PingFang SC", "Microsoft YaHei",
+    system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  font-feature-settings: "kern" 1;
 }
 
 ::selection {
