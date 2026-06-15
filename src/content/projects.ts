@@ -63,7 +63,9 @@ export type Project = {
   };
 };
 
-export const featuredProjects: Project[] = [
+import { applyWorkEdits } from "./apply-work-edits";
+
+const rawFeaturedProjects: Project[] = [
   {
     slug: "geo-portal",
     title: "美团 GEO 门户",
@@ -648,6 +650,8 @@ export const featuredProjects: Project[] = [
     },
   }
 ];
+
+export const featuredProjects: Project[] = rawFeaturedProjects.map(applyWorkEdits);
 
 export function getProject(slug: string) {
   return featuredProjects.find((p) => p.slug === slug);

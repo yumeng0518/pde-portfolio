@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "export:works": "npx tsx scripts/export-work-editable.ts",
+    "sync:works": "npx tsx scripts/sync-work-edits.ts"
   },
   "dependencies": {
     "clsx": "^2.1.1",
