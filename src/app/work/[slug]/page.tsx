@@ -35,7 +35,7 @@ export default async function WorkDetailPage({
             ← 返回作品列表
           </HashLink>
 
-          <header className="mt-10 border-b border-black/[0.06] pb-10">
+          <header className="mt-10 rounded-2xl bg-white px-6 py-8 shadow-[0_4px_24px_rgba(0,0,0,0.04)] sm:px-8 sm:py-9">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
               {project.category} · {project.year}
             </p>

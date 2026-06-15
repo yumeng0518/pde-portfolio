@@ -9,6 +9,18 @@ const prose =
   "text-[15px] leading-[1.85] text-[var(--foreground)]/75 sm:text-base sm:leading-[1.9]";
 const label =
   "text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]";
+const textPanel =
+  "rounded-2xl bg-white px-6 py-8 shadow-[0_4px_24px_rgba(0,0,0,0.04)] sm:px-8 sm:py-9";
+
+function TextPanel({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return <div className={`${textPanel} ${className}`}>{children}</div>;
+}
 
 function SectionHeader({
   index,
@@ -145,7 +157,7 @@ export function WorkDetailContent({ project }: { project: Project }) {
   const retrospectiveMedia = getMediaBySection(project.media, "retrospective");
 
   return (
-    <article className="mt-12 space-y-16 sm:mt-14 sm:space-y-20">
+    <article className="mt-10 space-y-8 sm:mt-12 sm:space-y-10">
       {/* Hero */}
       <FadeIn delay={0.08}>
         {heroMedia.length > 0 ? (
@@ -171,7 +183,7 @@ export function WorkDetailContent({ project }: { project: Project }) {
 
       {/* 概述 */}
       <FadeIn delay={0.1}>
-        <section className="space-y-5">
+        <TextPanel className="space-y-5">
           <p className={label}>Overview</p>
           <p className="text-lg leading-[1.75] tracking-[-0.01em] text-[var(--foreground)] sm:text-xl sm:leading-[1.8]">
             {project.summary}
@@ -180,37 +192,39 @@ export function WorkDetailContent({ project }: { project: Project }) {
             {project.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full border border-black/[0.06] bg-white px-3 py-1 text-xs text-[var(--muted)]"
+                className="rounded-full border border-black/[0.06] bg-[var(--bg-base)] px-3 py-1 text-xs text-[var(--muted)]"
               >
                 {tag}
               </span>
             ))}
           </div>
-        </section>
+        </TextPanel>
       </FadeIn>
 
       {/* 背景 */}
       <FadeIn delay={0.12}>
-        <section className="space-y-8">
-          <SectionHeader
-            index="01"
-            title="项目背景"
-            desc="业务目标 · 用户痛点 · 市场现状 · 竞品分析"
-          />
-          <div className="grid gap-8 sm:gap-10">
-            <SubBlock title="业务目标" accent={accent}>
-              <TextBlock text={project.background.businessGoal} />
-            </SubBlock>
-            <SubBlock title="用户痛点" accent={accent}>
-              <TextBlock text={project.background.userPain} />
-            </SubBlock>
-            <SubBlock title="市场现状" accent={accent}>
-              <TextBlock text={project.background.marketStatus} />
-            </SubBlock>
-            <SubBlock title="竞品分析" accent={accent}>
-              <TextBlock text={project.background.competitorAnalysis} />
-            </SubBlock>
-          </div>
+        <section className="space-y-6">
+          <TextPanel className="space-y-8">
+            <SectionHeader
+              index="01"
+              title="项目背景"
+              desc="业务目标 · 用户痛点 · 市场现状 · 竞品分析"
+            />
+            <div className="grid gap-8 sm:gap-10">
+              <SubBlock title="业务目标" accent={accent}>
+                <TextBlock text={project.background.businessGoal} />
+              </SubBlock>
+              <SubBlock title="用户痛点" accent={accent}>
+                <TextBlock text={project.background.userPain} />
+              </SubBlock>
+              <SubBlock title="市场现状" accent={accent}>
+                <TextBlock text={project.background.marketStatus} />
+              </SubBlock>
+              <SubBlock title="竞品分析" accent={accent}>
+                <TextBlock text={project.background.competitorAnalysis} />
+              </SubBlock>
+            </div>
+          </TextPanel>
           {backgroundMedia.length > 0 && (
             <MediaGallery items={backgroundMedia} accent={accent} />
           )}
@@ -219,31 +233,33 @@ export function WorkDetailContent({ project }: { project: Project }) {
 
       {/* 需求 */}
       <FadeIn delay={0.14}>
-        <section className="space-y-8">
-          <SectionHeader
-            index="02"
-            title="需求拆解"
-            desc="用户画像 · 用户旅程 · 核心与次要需求"
-          />
-          <div className="grid gap-8 sm:gap-10">
-            <SubBlock title="用户画像" accent={accent}>
-              <TextBlock text={project.requirements.userPersona} />
-            </SubBlock>
-            <SubBlock title="用户旅程" accent={accent}>
-              <TextBlock text={project.requirements.userJourney} />
-            </SubBlock>
-            <div className="grid gap-8 sm:grid-cols-2 sm:gap-10">
-              <SubBlock title="核心需求" accent={accent}>
-                <BulletList items={project.requirements.coreNeeds} accent={accent} />
+        <section className="space-y-6">
+          <TextPanel className="space-y-8">
+            <SectionHeader
+              index="02"
+              title="需求拆解"
+              desc="用户画像 · 用户旅程 · 核心与次要需求"
+            />
+            <div className="grid gap-8 sm:gap-10">
+              <SubBlock title="用户画像" accent={accent}>
+                <TextBlock text={project.requirements.userPersona} />
               </SubBlock>
-              <SubBlock title="次要需求" accent={accent}>
-                <BulletList
-                  items={project.requirements.secondaryNeeds}
-                  accent="var(--muted)"
-                />
+              <SubBlock title="用户旅程" accent={accent}>
+                <TextBlock text={project.requirements.userJourney} />
               </SubBlock>
+              <div className="grid gap-8 sm:grid-cols-2 sm:gap-10">
+                <SubBlock title="核心需求" accent={accent}>
+                  <BulletList items={project.requirements.coreNeeds} accent={accent} />
+                </SubBlock>
+                <SubBlock title="次要需求" accent={accent}>
+                  <BulletList
+                    items={project.requirements.secondaryNeeds}
+                    accent="var(--muted)"
+                  />
+                </SubBlock>
+              </div>
             </div>
-          </div>
+          </TextPanel>
           {requirementsMedia.length > 0 && (
             <MediaGallery items={requirementsMedia} accent={accent} />
           )}
@@ -252,39 +268,41 @@ export function WorkDetailContent({ project }: { project: Project }) {
 
       {/* 方案 */}
       <FadeIn delay={0.16}>
-        <section className="space-y-8">
-          <SectionHeader
-            index="03"
-            title="方案设计"
-            desc="信息架构 · 功能流程 · 原型与交互"
-          />
-          <div className="grid gap-8 sm:gap-10">
-            <SubBlock title="信息架构" accent={accent}>
-              <TextBlock text={project.designSolution.informationArchitecture} />
-            </SubBlock>
-            <SubBlock title="功能流程" accent={accent}>
-              <TextBlock text={project.designSolution.functionalFlow} />
-            </SubBlock>
-            <SubBlock title="原型设计" accent={accent}>
-              <TextBlock text={project.designSolution.prototype} />
-            </SubBlock>
-            <div className="grid gap-8 sm:grid-cols-2 sm:gap-10">
-              <SubBlock title="交互规则" accent={accent}>
-                <TextBlock text={project.designSolution.interactionRules} />
+        <section className="space-y-6">
+          <TextPanel className="space-y-8">
+            <SectionHeader
+              index="03"
+              title="方案设计"
+              desc="信息架构 · 功能流程 · 原型与交互"
+            />
+            <div className="grid gap-8 sm:gap-10">
+              <SubBlock title="信息架构" accent={accent}>
+                <TextBlock text={project.designSolution.informationArchitecture} />
               </SubBlock>
-              <SubBlock title="页面说明" accent={accent}>
-                <TextBlock text={project.designSolution.pageNotes} />
+              <SubBlock title="功能流程" accent={accent}>
+                <TextBlock text={project.designSolution.functionalFlow} />
               </SubBlock>
+              <SubBlock title="原型设计" accent={accent}>
+                <TextBlock text={project.designSolution.prototype} />
+              </SubBlock>
+              <div className="grid gap-8 sm:grid-cols-2 sm:gap-10">
+                <SubBlock title="交互规则" accent={accent}>
+                  <TextBlock text={project.designSolution.interactionRules} />
+                </SubBlock>
+                <SubBlock title="页面说明" accent={accent}>
+                  <TextBlock text={project.designSolution.pageNotes} />
+                </SubBlock>
+              </div>
+              {project.designSolution.optimizationOverview && (
+                <SubBlock title="七大模块优化" accent={accent}>
+                  <BulletList
+                    items={project.designSolution.optimizationOverview}
+                    accent={accent}
+                  />
+                </SubBlock>
+              )}
             </div>
-            {project.designSolution.optimizationOverview && (
-              <SubBlock title="七大模块优化" accent={accent}>
-                <BulletList
-                  items={project.designSolution.optimizationOverview}
-                  accent={accent}
-                />
-              </SubBlock>
-            )}
-          </div>
+          </TextPanel>
           {designMedia.length > 0 && (
             <MediaGallery items={designMedia} accent={accent} />
           )}
@@ -293,48 +311,50 @@ export function WorkDetailContent({ project }: { project: Project }) {
 
       {/* 成果 */}
       <FadeIn delay={0.18}>
-        <section className="space-y-8">
-          <SectionHeader
-            index="04"
-            title="落地成果"
-            desc="版本迭代 · 数据表现 · 用户反馈"
-          />
-          <SubBlock title="版本迭代" accent={accent}>
-            <ol className="space-y-4">
-              {project.deliveryResults.iterationLog.map((item, i) => (
-                <li key={i} className="flex gap-4">
-                  <span
-                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold text-white"
-                    style={{ background: accent }}
-                  >
-                    {i + 1}
-                  </span>
-                  <p className={`pt-0.5 ${prose}`}>{item}</p>
-                </li>
-              ))}
-            </ol>
-          </SubBlock>
+        <section className="space-y-6">
+          <TextPanel className="space-y-8">
+            <SectionHeader
+              index="04"
+              title="落地成果"
+              desc="版本迭代 · 数据表现 · 用户反馈"
+            />
+            <SubBlock title="版本迭代" accent={accent}>
+              <ol className="space-y-4">
+                {project.deliveryResults.iterationLog.map((item, i) => (
+                  <li key={i} className="flex gap-4">
+                    <span
+                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold text-white"
+                      style={{ background: accent }}
+                    >
+                      {i + 1}
+                    </span>
+                    <p className={`pt-0.5 ${prose}`}>{item}</p>
+                  </li>
+                ))}
+              </ol>
+            </SubBlock>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {project.deliveryResults.dataPerformance.map((metric) => (
-              <div
-                key={metric.label}
-                className="rounded-2xl border border-black/[0.05] bg-white px-5 py-6 text-center shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
-              >
-                <p className="text-xs text-[var(--muted)]">{metric.label}</p>
-                <p
-                  className="mt-2 text-2xl font-semibold tracking-[-0.03em]"
-                  style={{ color: accent }}
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {project.deliveryResults.dataPerformance.map((metric) => (
+                <div
+                  key={metric.label}
+                  className="rounded-xl border border-black/[0.05] bg-[var(--bg-base)] px-5 py-6 text-center"
                 >
-                  {metric.value}
-                </p>
-              </div>
-            ))}
-          </div>
+                  <p className="text-xs text-[var(--muted)]">{metric.label}</p>
+                  <p
+                    className="mt-2 text-2xl font-semibold tracking-[-0.03em]"
+                    style={{ color: accent }}
+                  >
+                    {metric.value}
+                  </p>
+                </div>
+              ))}
+            </div>
 
-          <SubBlock title="用户反馈" accent={accent}>
-            <TextBlock text={project.deliveryResults.userFeedback} />
-          </SubBlock>
+            <SubBlock title="用户反馈" accent={accent}>
+              <TextBlock text={project.deliveryResults.userFeedback} />
+            </SubBlock>
+          </TextPanel>
 
           {deliveryMedia.length > 0 && (
             <MediaGallery items={deliveryMedia} accent={accent} />
@@ -344,22 +364,24 @@ export function WorkDetailContent({ project }: { project: Project }) {
 
       {/* 复盘 */}
       <FadeIn delay={0.2}>
-        <section className="space-y-8">
-          <SectionHeader index="05" title="复盘总结" desc="亮点 · 不足 · 优化思路" />
-          <div className="grid gap-8 sm:gap-10">
-            <SubBlock title="亮点" accent={accent}>
-              <BulletList items={project.retrospective.strengths} accent={accent} />
-            </SubBlock>
-            <SubBlock title="不足" accent={accent}>
-              <BulletList items={project.retrospective.weaknesses} accent={accent} />
-            </SubBlock>
-            <SubBlock title="优化思路" accent={accent}>
-              <BulletList
-                items={project.retrospective.optimizationIdeas}
-                accent={accent}
-              />
-            </SubBlock>
-          </div>
+        <section className="space-y-6">
+          <TextPanel className="space-y-8">
+            <SectionHeader index="05" title="复盘总结" desc="亮点 · 不足 · 优化思路" />
+            <div className="grid gap-8 sm:gap-10">
+              <SubBlock title="亮点" accent={accent}>
+                <BulletList items={project.retrospective.strengths} accent={accent} />
+              </SubBlock>
+              <SubBlock title="不足" accent={accent}>
+                <BulletList items={project.retrospective.weaknesses} accent={accent} />
+              </SubBlock>
+              <SubBlock title="优化思路" accent={accent}>
+                <BulletList
+                  items={project.retrospective.optimizationIdeas}
+                  accent={accent}
+                />
+              </SubBlock>
+            </div>
+          </TextPanel>
           {retrospectiveMedia.length > 0 && (
             <MediaGallery items={retrospectiveMedia} accent={accent} />
           )}
@@ -368,7 +390,7 @@ export function WorkDetailContent({ project }: { project: Project }) {
 
       {/* 设计思考 */}
       <FadeIn delay={0.22}>
-        <section className="space-y-8 rounded-3xl bg-white px-6 py-8 shadow-[0_8px_40px_rgba(0,0,0,0.04)] sm:px-10 sm:py-10">
+        <TextPanel className="space-y-8">
           <SectionHeader index="Insight" title="设计思考" />
           <div className="grid gap-8 sm:gap-10">
             <SubBlock title="产品洞察" accent={accent}>
@@ -381,7 +403,7 @@ export function WorkDetailContent({ project }: { project: Project }) {
               <BulletList items={project.highlights} accent={accent} />
             </SubBlock>
           </div>
-        </section>
+        </TextPanel>
       </FadeIn>
 
       {project.metrics && (
