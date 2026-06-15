@@ -46,6 +46,7 @@ export type Project = {
     prototype: string;
     interactionRules: string;
     pageNotes: string;
+    optimizationOverview?: string[];
   };
 
   // 落地成果

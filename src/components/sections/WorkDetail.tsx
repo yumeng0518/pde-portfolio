@@ -288,6 +288,15 @@ export function WorkDetailContent({ project }: { project: Project }) {
               <TextBlock text={project.designSolution.pageNotes} />
             </GlassPanel>
           </div>
+          {project.designSolution.optimizationOverview && (
+            <GlassPanel depth="sm" className="p-6">
+              <SectionTitle label="七大模块优化" color="#10B981" />
+              <BulletList
+                items={project.designSolution.optimizationOverview}
+                accent={project.accent}
+              />
+            </GlassPanel>
+          )}
         </div>
         {designMedia.length > 0 && (
           <MediaGallery items={designMedia} accent={project.accent} />
