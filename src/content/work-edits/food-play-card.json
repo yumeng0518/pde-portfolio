@@ -1,1 +1,78 @@
-{}
+{
+  "slug": "food-play-card",
+  "title": "美食玩法卡",
+  "subtitle": "AI Coding 驱动的外卖 H5 互动",
+  "category": "C 端互动 · AI Coding",
+  "year": "2025",
+  "accent": "#ff8c42",
+  "cover": "/media/food-card/2ff94e1777fa809273ace134d62daf0b.png",
+  "summary": "以 AI Coding 独立开发外卖「美食玩法卡」H5 抽卡互动，将抽卡机制与美食推荐结合缓解选择焦虑；用户参与率 +68%，抽卡→下单转化 12.3%。",
+  "productInsight": "外卖用户下单决策卡在「吃什么」的选择焦虑上。将抽卡随机性与美食推荐结合，用「开盲盒」愉悦感消解选择压力，同时为商家带来精准曝光。",
+  "designCraft": "3D 翻卡 + 物理弹性动效，插画风格卡面制造收集欲；使用 Cursor + AI 辅助编码，从设计稿直接推导组件结构与动画参数。",
+  "highlights": [
+    "设计师直接产出可上线 H5 代码，消除设计-开发转译损耗",
+    "3D 翻卡 + 物理弹性动效，60fps 流畅体验",
+    "用户参与率较常规活动 +68%，抽卡→下单转化 12.3%",
+    "探索 AI Coding 设计新范式，开发效率提升 35%"
+  ],
+  "tags": ["AI Coding", "H5 互动", "C 端增长", "设计新范式", "Cursor"],
+  "media": [
+    {
+      "type": "video",
+      "url": "/media/food-card/flip-card-demo.mp4",
+      "caption": "美食玩法卡 3D 翻卡交互演示",
+      "section": "hero"
+    }
+  ],
+  "background": {
+    "businessGoal": "午/晚高峰下单转化率遇瓶颈，通过互动玩法提升下单决策效率，为优质商家带来额外曝光。",
+    "userPain": "「今天吃什么」是最高频痛点——选择过载导致决策瘫痪，用户平均浏览 12 家店铺才下单。",
+    "marketStatus": "抽卡/盲盒机制在电商和游戏已验证强吸引力；外卖领域互动仍停留在转盘抽奖等传统形式。",
+    "competitorAnalysis": "饿了么有随机推荐但交互单一；抖音外卖内容驱动但缺互动决策工具；本项目将盲盒惊喜感与美食推荐功能性结合。"
+  },
+  "requirements": {
+    "userPersona": "18-30 岁年轻用户，外卖高频消费者，对新鲜互动接受度高，社交分享意愿强。",
+    "userJourney": "看到入口 → 进入抽卡页 → 抽取美食卡片 → 查看菜品故事 + 优惠 → 心动则一键下单 → 不满意可再抽。",
+    "coreNeeds": [
+      "3D 翻卡交互流畅体验（目标 60fps）",
+      "每张卡片承载商家/菜品故事 + 专属优惠",
+      "抽卡结果基于用户口味偏好推荐"
+    ],
+    "secondaryNeeds": ["卡片收集册和集卡奖励", "社交分享裂变"]
+  },
+  "designSolution": {
+    "informationArchitecture": "顶部卡组主题 → 中央 3D 翻卡区域 → 底部卡片详情（商家/菜品/优惠）→ 行动按钮（下单/再抽/分享）。",
+    "functionalFlow": "点击翻卡 → 3D 翻转动画 → 揭示卡面 → 底部滑出详情面板 → 选择下单/跳过/分享；单次会话 5 张免费抽卡。",
+    "prototype": "直接用 Cursor + React 编写可交互原型，CSS 3D 变换实现翻卡，Framer Motion 处理弹性动画，原型即最终交付代码。",
+    "interactionRules": "点击或上滑触发翻卡，spring 缓动 600ms；后方卡片缩小 5% 形成层次感；翻卡瞬间触发轻震反馈。",
+    "pageNotes": "兼容美团 App WebView 和微信内打开；低端机 3D 降级为 2D 滑动；图片走 CDN + WebP，首屏懒加载。"
+  },
+  "deliveryResults": {
+    "iterationLog": [
+      "V1.0：基础翻卡交互 + 5 张美食卡灰度测试",
+      "V1.1：优化 3D 动效性能，低端机帧率 30fps→55fps",
+      "V2.0：新增集卡成就 + 社交分享裂变，日均 UV 提升 3 倍"
+    ],
+    "dataPerformance": [
+      { "label": "用户参与率", "value": "较常规活动 +68%" },
+      { "label": "抽卡→下单转化", "value": "12.3%" },
+      { "label": "人均抽卡次数", "value": "4.7 次/人" },
+      { "label": "分享率", "value": "18%" }
+    ],
+    "userFeedback": "82% 认为「比直接选菜更有趣」，67% 表示「抽到的菜确实想试试」；长尾菜品订单占比提升。"
+  },
+  "retrospective": {
+    "strengths": [
+      "AI Coding 消除设计-开发翻译损耗，设计意图 100% 还原",
+      "抽卡机制精准击中选择困难用户，参与率远超传统优惠弹窗"
+    ],
+    "weaknesses": [
+      "初版 3D 动效在低端机表现不佳，上线后才补充降级方案",
+      "卡面内容更新依赖运营手动配置"
+    ],
+    "optimizationIdeas": [
+      "接入用户历史偏好实现千人千面卡面推荐",
+      "建立设计师 AI Coding 标准化 Toolkit"
+    ]
+  }
+}
