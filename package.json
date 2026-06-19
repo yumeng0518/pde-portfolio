@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "deploy": "npm run build && wrangler deploy",
+    "deploy:cf": "npm run build && wrangler deploy",
     "export:works": "npx tsx scripts/export-work-editable.ts",
     "sync:works": "npx tsx scripts/sync-work-edits.ts"
   },
@@ -26,6 +28,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.7",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.103.0"
   }
 }
