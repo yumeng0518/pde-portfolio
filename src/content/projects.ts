@@ -560,8 +560,8 @@ const rawFeaturedProjects: Project[] = [
         section: "hero",
       },
       {
-        type: "image",
-        url: "/media/frog-writing/design-solution.gif",
+        type: "video",
+        url: "/media/frog-writing/design-solution.mp4",
         caption: "新网站",
         section: "design",
       },
