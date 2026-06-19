@@ -3,6 +3,7 @@
   "name": "pde-portfolio",
   "compatibility_date": "2026-06-19",
   "assets": {
-    "directory": "./out"
+    "directory": "./out",
+    "not_found_handling": "404-page"
   }
 }
